@@ -1,7 +1,9 @@
 const periods = document.querySelectorAll('.period')
+import { scheduleCancel } from "../../services/schedule-cancel.js"
+import { schedulesDay } from "./load.js"
 
 periods.forEach((period) => {
-  period.addEventListener('click', (e) => {
+  period.addEventListener('click', async (e) => {
     if (e.target.classList.contains("cancel-icon")) {
       const item = e.target.closest("li")
       const { id } = item.dataset
@@ -10,7 +12,8 @@ periods.forEach((period) => {
         const isConfirm = confirm("Certeza?")
         
         if (isConfirm) {
-          item.remove()
+          await scheduleCancel({ id })
+          schedulesDay()
         }
       }
     }
